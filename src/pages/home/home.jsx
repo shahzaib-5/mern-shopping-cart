@@ -29,7 +29,7 @@
         <div className="products">
           {products.map((product) => ( // Use map to render each product
             <div className="product" key={product._id}>
-              <img src={product.imageURL} alt="" />
+              <img src={product.imageURL} className="image" alt="" />
               <div className="description">
                 <p>
                   <b>{product.name}</b>
