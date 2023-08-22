@@ -10,6 +10,8 @@ import { Signup } from "./pages/signup/signup";
 import { AddProduct } from "./pages/addProduct/AddProduct";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
+import Admin from "./pages/admin/Admin";
+import ProductDetails from "./pages/admin/ProductDetails";
 
 axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
@@ -68,7 +70,9 @@ function App() {
               element={<Signin handleLogin={handleLogin} />}
             />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="/addproduct" element={<AddProduct />} />
+            <Route path="/admin/update/:id" element={<ProductDetails />} />
           </Routes>
         </Router>
         {isCartModalOpen && <CartModal closeModal={closeCartModal} />}

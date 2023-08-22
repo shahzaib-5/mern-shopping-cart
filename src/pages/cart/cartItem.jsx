@@ -16,7 +16,7 @@ export const CartItem = ({ data }) => {
         <p>Rs.{price * quantityInCart}</p>
         <div className="countHandler">
           <button onClick={() => removeFromCart(_id)}>-</button>
-          <input value={quantityInCart} readOnly />
+          <div>{quantityInCart}</div>
           <button onClick={() => addToCart(_id)}>+</button>
         </div>
       </div>

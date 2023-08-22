@@ -24,12 +24,22 @@ export const HomeContextProvider = (props) => {
       try {
         const response = await axios.get("/products/get"); // Update with your API endpoint
         setProducts(response.data);
+  
+        // Remove deleted products from cart
+        const updatedCart = { ...cartItems };
+        for (const productId in updatedCart) {
+          if (!response.data.some(product => product._id === productId)) {
+            delete updatedCart[productId];
+          }
+        }
+        setCartItems(updatedCart);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
     fetchData();
   }, []);
+  
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
