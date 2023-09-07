@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import "./signin.css";
 
-export const Signin = ({ handleLogin }) => {
+export const Signin = ({ handleLogin, setUserId }) => {
   const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
@@ -23,8 +23,8 @@ export const Signin = ({ handleLogin }) => {
       if (responseData.error) {
         toast.error(responseData.error);
       } else {
-        // Call handleLogin to store the token and update isLoggedIn state
         handleLogin(responseData.user, responseData.token);
+        setUserId(responseData.user._id);
         setData({});
         navigate("/");
       }

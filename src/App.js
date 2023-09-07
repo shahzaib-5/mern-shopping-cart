@@ -19,12 +19,16 @@ axios.defaults.withCredentials = true;
 function App() {
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    // Check user's authentication status on initial load
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
+      // const decodedToken = jwtDecode(token); 
+      // if (decodedToken) {
+      //   setUserId(decodedToken.userId); //track current user
+      // }
     }
   }, []);
 
@@ -36,16 +40,16 @@ function App() {
     setIsCartModalOpen(false);
   };
 
-  const handleLogout = () => {
-    // Clear the token from localStorage and update isLoggedIn state
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-  };
-
   const handleLogin = (user, token) => {
-    // Store the token in localStorage and update isLoggedIn state
     localStorage.setItem("token", token);
     setIsLoggedIn(true);
+    setUserId(user._id); //track current user
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    setUserId(null); 
   };
 
   return (
@@ -62,12 +66,12 @@ function App() {
             <Route
               path="/"
               element={
-                isLoggedIn ? <Home /> : <Signin handleLogin={handleLogin} />
+                isLoggedIn ? <Home /> : <Signin handleLogin={handleLogin} setUserId={setUserId} />
               }
             />
             <Route
               path="/signin"
-              element={<Signin handleLogin={handleLogin} />}
+              element={<Signin handleLogin={handleLogin} setUserId={setUserId} />}
             />
             <Route path="/signup" element={<Signup />} />
             <Route path="/admin" element={<Admin />} />
@@ -75,7 +79,7 @@ function App() {
             <Route path="/admin/update/:id" element={<ProductDetails />} />
           </Routes>
         </Router>
-        {isCartModalOpen && <CartModal closeModal={closeCartModal} />}
+        {isCartModalOpen && <CartModal closeModal={closeCartModal} userId={userId} />}
       </HomeContextProvider>
     </div>
   );
